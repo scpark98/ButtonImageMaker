@@ -31,6 +31,7 @@ public:
 		id_image_height,
 		id_image_alpha,
 		id_image_back_color,
+		id_image_zoom,			//보기 확대/축소 배율, percentage
 
 		id_button_width,
 		id_button_height,
@@ -56,6 +57,7 @@ public:
 	int				height = 60;
 	int				alpha = 255;
 	Gdiplus::Color	cr_back = Gdiplus::Color::Transparent;
+	int				m_zoom = 100;	//percentage
 
 	//button image properties
 	int				button_width = 160;
@@ -106,4 +108,5 @@ public:
 	afx_msg void OnBnClickedCheckShowImage();
 	afx_msg void OnBnClickedCheckShowShadow();
 	afx_msg void OnBnClickedButtonSave();
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };

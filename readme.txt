@@ -1,6 +1,9 @@
 - CSCGdiplusBitmap을 이용하여 버튼 이미지를 생성하기 위해 제작.
 - 크기, 위치, 색상, 투명도, 테두리, 그림자 등을 설정한 후 png 이미지로 저장할 수 있다.
 
+- lt, rt, lb, rb : 좌상, 우상, 좌하, 우하 모서리 라운드 처리?
+  
+
 [image properties]
 image width
 image height

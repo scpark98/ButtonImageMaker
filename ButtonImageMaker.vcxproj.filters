@@ -66,6 +66,9 @@
     <ClInclude Include="..\Common\CStatic\ImageStatic\ImageStatic.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="SCFigure.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ButtonImageMaker.cpp">
@@ -100,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\CStatic\ImageStatic\ImageStatic.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SCFigure.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

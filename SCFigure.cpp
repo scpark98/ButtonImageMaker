@@ -1,0 +1,1 @@
+#include "SCFigure.h"

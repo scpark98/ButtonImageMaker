@@ -81,6 +81,7 @@ BEGIN_MESSAGE_MAP(CButtonImageMakerDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_IMAGE, &CButtonImageMakerDlg::OnBnClickedCheckShowImage)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_SHADOW, &CButtonImageMakerDlg::OnBnClickedCheckShowShadow)
 	ON_BN_CLICKED(IDC_BUTTON_SAVE, &CButtonImageMakerDlg::OnBnClickedButtonSave)
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 
@@ -224,12 +225,16 @@ void CButtonImageMakerDlg::init_grid()
 	CMFCPropertyGridProperty* pGroup;
 	CMFCPropertyGridProperty* pProperty = NULL;
 
+	m_zoom = m_static_img.get_zoom_ratio() * 100.0;
+	int zoom_min = m_static_img.get_zoom_min() * 100.0;
+	int zoom_max = m_static_img.get_zoom_max() * 100.0;
 
 	pGroup = new CMFCPropertyGridProperty(_T("Image Properties"));
 	m_grid.AddChildItem(pGroup, _T("width"), width, _T("image width"), true, id_image_width, true, 10, 800);
 	m_grid.AddChildItem(pGroup, _T("height"), height, _T("image height"), true, id_image_height, true, 10, 600);
 	m_grid.AddSliderItem(pGroup, _T("alpha"), alpha, id_image_alpha, 0, 255);
 	m_grid.AddColorSelect(pGroup, _T("back color"), cr_back.ToCOLORREF(), id_image_back_color);
+	m_grid.AddSliderItem(pGroup, _T("zoom"), m_zoom, id_image_zoom, zoom_min, zoom_max);
 	pGroup->Expand();
 	m_grid.AddProperty(pGroup);
 
@@ -295,6 +300,13 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 			cr_back = Gdiplus::Color(alpha, GetRValue(cr), GetGValue(cr), GetBValue(cr));
 			break;
 		}
+		case id_image_zoom:
+		{
+			float zoom = getPropValue(pProperty);
+			m_static_img.set_zoom_ratio(double(zoom) / 100.0);
+			break;
+		}
+
 		case id_button_width:
 		{
 			button_width = getPropValue(pProperty);
@@ -395,11 +407,12 @@ void CButtonImageMakerDlg::adjust_position()
 	rImageArea.DeflateRect(12, 12);
 	rImageArea.left = rgrid.right + 12;
 
-	CRect r = get_ratio_rect(rImageArea, m_img.width, m_img.height, 0, false);
+	double zoom = m_static_img.get_zoom_ratio();
+	CRect r = get_ratio_rect(rImageArea, m_img.width * zoom, m_img.height * zoom, 0, false);
 
 	m_static_img.MoveWindow(r);
 	m_static_img.Invalidate();
-	//Invalidate();
+	Invalidate();
 }
 
 BOOL CButtonImageMakerDlg::PreTranslateMessage(MSG* pMsg)
@@ -469,4 +482,14 @@ void CButtonImageMakerDlg::OnBnClickedButtonSave()
 		m_img.save(path);
 		theApp.WriteProfileString(_T("setting"), _T("recent saved file"), path);
 	}
+}
+
+BOOL CButtonImageMakerDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	m_static_img.zoom(zDelta > 0 ? 1 : -1, 0.2);
+	m_grid.set_value(id_image_zoom, m_static_img.get_zoom_ratio() * 100.0);
+	adjust_position();
+
+	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
 }
