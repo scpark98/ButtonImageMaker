@@ -10,7 +10,8 @@ CSCFigure 하나로 하느냐...
 #pragma once
 
 #include <afxwin.h>
-#include <gdiplus.h>
+#include "Common/SCGdiplusBitmap.h"
+
 
 enum SCFIGURE_TYPES
 {
@@ -26,13 +27,22 @@ public:
 	CSCFigure();
 	~CSCFigure();
 
+	//타깃에 현재 도형의 속성대로 그려준다.
+	void			draw(Gdiplus::Graphics& g);
+	void			draw(CSCGdiplusBitmap* img, bool draw_fore = true, bool draw_shadow = true);
+
 	int				type;
-	Gdiplus::Rect 	r;
-	int				round[4];
+	Gdiplus::Rect	r;					//도형은 자기 스스로의 위치를 기억할 수 있어야 하므로 w, h가 아닌 Rect로 정의함.
+	int				round[4];	
 	Gdiplus::Color 	cr_fill;
 	int				fill_alpha;
 	Gdiplus::Color 	cr_stroke;
 	int				stroke_alpha;
 	int				stroke_width;
+	//int				shadow_depth;
+	Gdiplus::Color	cr_shadow;
+	int				shadow_sigma;
+	int				shadow_offset_x;
+	int				shadow_offset_y;
 };
 

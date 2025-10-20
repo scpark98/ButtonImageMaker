@@ -7,6 +7,7 @@
 #include "Common/ResizeCtrl.h"
 #include "Common/CStatic/ImageStatic/ImageStatic.h"
 #include "Common/CMFCCtrl/CMFCPropertyGridCtrl/CSCMFCPropertyGridCtrl/SCMFCPropertyGridCtrl.h"
+#include "SCFigure.h"
 
 // CButtonImageMakerDlg 대화 상자
 class CButtonImageMakerDlg : public CDialogEx
@@ -17,6 +18,8 @@ public:
 
 	CResizeCtrl		m_resize;
 
+	CSCFigure		m_fig;
+
 	void			init_grid();
 	LRESULT			OnPropertyChanged(WPARAM wparam, LPARAM lparam);
 
@@ -25,9 +28,12 @@ public:
 
 	CSCGdiplusBitmap m_img;
 
+	//반드시 1 이상부터 시작해야함.(dwID를 별도로 지정하지 않은 모든 아이템이 0으로 세팅되므로 구분할 수 없음)
 	enum PROPERTY_GRID_ITEM
 	{
-		id_image_width = 1,	//반드시 1 이상부터 시작해야함.(dwID를 별도로 지정하지 않은 모든 아이템이 0으로 세팅되므로 구분할 수 없음)
+		id_figure_type = 1,
+
+		id_image_width,	
 		id_image_height,
 		id_image_alpha,
 		id_image_back_color,
@@ -40,7 +46,7 @@ public:
 		id_stroke_thickness,
 		id_radius,
 
-		id_shadow_depth,
+		//id_shadow_depth,
 		id_shadow_color,
 		id_shadow_sigma,
 		id_shadow_offset_x,
@@ -58,21 +64,6 @@ public:
 	int				alpha = 255;
 	Gdiplus::Color	cr_back = Gdiplus::Color::Transparent;
 	int				m_zoom = 100;	//percentage
-
-	//button image properties
-	int				button_width = 160;
-	int				button_height = 40;
-	Gdiplus::Color	cr_fill = Gdiplus::Color::RoyalBlue;
-	Gdiplus::Color	cr_stroke = Gdiplus::Color::Navy;
-	int				stroke_thickness = 2;
-	int				radius = 10;
-
-	//shadow properties
-	int				shadow_depth = 8;
-	Gdiplus::Color	cr_shadow = Gdiplus::Color::Gray;
-	int				shadow_sigma = 25;	//실제 적용할때에는 10으로 나눈 값을 사용한다.
-	int				shadow_offset_x = 0;
-	int				shadow_offset_y = 0;
 
 
 // 대화 상자 데이터입니다.

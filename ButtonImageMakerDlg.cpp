@@ -123,6 +123,10 @@ BOOL CButtonImageMakerDlg::OnInitDialog()
 	m_resize.Add(IDC_CHECK_SHOW_SHADOW, 0, 100, 0, 0);
 	m_resize.Add(IDC_BUTTON_SAVE, 100, 100, 0, 0);
 
+
+	//figure 초기화
+
+
 	init_grid();
 
 	m_img.create(width, height, cr_back);
@@ -132,6 +136,9 @@ BOOL CButtonImageMakerDlg::OnInitDialog()
 
 	apply_settings();
 
+	int sz = sizeof(m_fig);
+	sz = sizeof(m_fig.r);
+	sz = sizeof(m_fig.cr_fill);
 
 	RestoreWindowPosition(&theApp, this);
 
@@ -239,20 +246,20 @@ void CButtonImageMakerDlg::init_grid()
 	m_grid.AddProperty(pGroup);
 
 	pGroup = new CMFCPropertyGridProperty(_T("Button Properties"));
-	m_grid.AddChildItem(pGroup, _T("button width"), button_width, _T(""), true, id_button_width, true, 10, width);
-	m_grid.AddChildItem(pGroup, _T("button height"), button_height, _T(""), true, id_button_height, true, 10, height);
-	m_grid.AddColorSelect(pGroup, _T("fill color"), cr_fill.ToCOLORREF(), id_fill_color);
-	m_grid.AddColorSelect(pGroup, _T("stroke color"), cr_stroke.ToCOLORREF(), id_stroke_color);
-	m_grid.AddChildItem(pGroup, _T("stroke thickness"), stroke_thickness, _T(""), true, id_stroke_thickness, true, 0, 8);
-	m_grid.AddSliderItem(pGroup, _T("round radius"), radius, id_radius, 0, button_height / 2.0);
+	m_grid.AddChildItem(pGroup, _T("button width"), m_fig.r.Width, _T(""), true, id_button_width, true, 10, width);
+	m_grid.AddChildItem(pGroup, _T("button height"), m_fig.r.Height, _T(""), true, id_button_height, true, 10, height);
+	m_grid.AddColorSelect(pGroup, _T("fill color"), m_fig.cr_fill.ToCOLORREF(), id_fill_color);
+	m_grid.AddColorSelect(pGroup, _T("stroke color"), m_fig.cr_stroke.ToCOLORREF(), id_stroke_color);
+	m_grid.AddChildItem(pGroup, _T("stroke thickness"), m_fig.stroke_width, _T(""), true, id_stroke_thickness, true, 0, 8);
+	m_grid.AddSliderItem(pGroup, _T("round radius"), m_fig.round[0], id_radius, 0, m_fig.r.Height / 2.0);
 	pGroup->Expand();
 	m_grid.AddProperty(pGroup);
 
 	pGroup = new CMFCPropertyGridProperty(_T("Shadow Properties"));
-	m_grid.AddChildItem(pGroup, _T("shadow_depth"), shadow_depth, _T(""), true, id_shadow_depth, true, 0, 20);
-	m_grid.AddChildItem(pGroup, _T("shadow sigma"), shadow_sigma, _T("실제 적용시에는 1/10 값으로 적용됨"), true, id_shadow_sigma, true, 0, 200);
-	m_grid.AddChildItem(pGroup, _T("shadow offset x"), shadow_offset_x, _T(""), true, id_shadow_offset_x, true, -20, 20);
-	m_grid.AddChildItem(pGroup, _T("shadow offset y"), shadow_offset_y, _T(""), true, id_shadow_offset_y, true, -20, 20);
+	//m_grid.AddChildItem(pGroup, _T("shadow_depth"), m_fig.shadow_depth, _T(""), true, id_shadow_depth, true, 0, 20);
+	m_grid.AddChildItem(pGroup, _T("shadow sigma"), m_fig.shadow_sigma, _T("실제 적용시에는 1/10 값으로 적용됨"), true, id_shadow_sigma, true, 0, 200);
+	m_grid.AddChildItem(pGroup, _T("shadow offset x"), m_fig.shadow_offset_x, _T(""), true, id_shadow_offset_x, true, -20, 20);
+	m_grid.AddChildItem(pGroup, _T("shadow offset y"), m_fig.shadow_offset_y, _T(""), true, id_shadow_offset_y, true, -20, 20);
 	pGroup->Expand();
 	m_grid.AddProperty(pGroup);
 
@@ -268,7 +275,7 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 		return 0;
 
 	DWORD	dwData = pProperty->GetData();
-	TRACE(_T("dwData = %d\n"), dwData);
+	//TRACE(_T("dwData = %d\n"), dwData);
 
 	switch (dwData)
 	{
@@ -309,56 +316,56 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 
 		case id_button_width:
 		{
-			button_width = getPropValue(pProperty);
+			m_fig.r.Width = getPropValue(pProperty);
 			break;
 		}
 		case id_button_height:
 		{
-			button_height = getPropValue(pProperty);
-			m_grid.set_slider_range(id_radius, 0, button_height / 2.0f);
+			m_fig.r.Height = getPropValue(pProperty);
+			m_grid.set_slider_range(id_radius, 0, m_fig.r.Height / 2.0f);
 			break;
 		}
 		case id_fill_color:
 		{
 			COLORREF cr = getPropValue(pProperty);
-			cr_fill = Gdiplus::Color(GetRValue(cr), GetGValue(cr), GetBValue(cr));
+			m_fig.cr_fill = Gdiplus::Color(GetRValue(cr), GetGValue(cr), GetBValue(cr));
 			break;
 		}
 		case id_stroke_color:
 		{
 			COLORREF cr = getPropValue(pProperty);
-			cr_stroke = Gdiplus::Color(GetRValue(cr), GetGValue(cr), GetBValue(cr));
+			m_fig.cr_stroke = Gdiplus::Color(GetRValue(cr), GetGValue(cr), GetBValue(cr));
 			break;
 		}
 		case id_stroke_thickness:
 		{
-			stroke_thickness = getPropValue(pProperty);
+			m_fig.stroke_width = getPropValue(pProperty);
 			break;
 		}
 		case id_radius:
 		{
 			float r = getPropValue(pProperty);
-			radius = (int)r;
+			m_fig.round[0] = (int)r;
 			break;
 		}
-		case id_shadow_depth:
-		{
-			shadow_depth = getPropValue(pProperty);
-			break;
-		}
+		//case id_shadow_depth:
+		//{
+		//	m_fig.shadow_depth = getPropValue(pProperty);
+		//	break;
+		//}
 		case id_shadow_sigma:
 		{
-			shadow_sigma = getPropValue(pProperty);
+			m_fig.shadow_sigma = getPropValue(pProperty);
 			break;
 		}
 		case id_shadow_offset_x:
 		{
-			shadow_offset_x = getPropValue(pProperty);
+			m_fig.shadow_offset_x = getPropValue(pProperty);
 			break;
 		}
 		case id_shadow_offset_y:
 		{
-			shadow_offset_y = getPropValue(pProperty);
+			m_fig.shadow_offset_y = getPropValue(pProperty);
 			break;
 		}
 	}
@@ -434,7 +441,15 @@ BOOL CButtonImageMakerDlg::PreTranslateMessage(MSG* pMsg)
 
 void CButtonImageMakerDlg::apply_settings()
 {
-	CSCGdiplusBitmap btn_img;
+	m_img.create(width, height, cr_back);
+
+	m_fig.r.X = (m_img.width - m_fig.r.Width) / 2;
+	m_fig.r.Y = (m_img.height - m_fig.r.Height) / 2;
+
+	CSCGdiplusBitmap fig_img;
+	m_fig.draw(&m_img, m_check_show_image.GetCheck(), m_check_show_shadow.GetCheck());
+
+	/*
 	btn_img.create_round_rect(button_width, button_height, radius, cr_fill, cr_stroke, stroke_thickness);
 
 	//shadow 이미지에는 stroke가 적용되지 않아야하므로 create_back_shadow_image() 함수를 그냥 사용해서는 안된다.
@@ -448,7 +463,6 @@ void CButtonImageMakerDlg::apply_settings()
 		shadow.blur((float)shadow_sigma / 10.0f);
 	}
 
-	m_img.create(width, height, cr_back);
 	
 	int x = (m_img.width - btn_img.width) / 2;
 	int y = (m_img.height - btn_img.height) / 2;
@@ -457,6 +471,7 @@ void CButtonImageMakerDlg::apply_settings()
 		m_img.draw(&shadow, x - shadow_depth / 2 + shadow_offset_x, y - shadow_depth / 2 + shadow_offset_y);
 	if (m_check_show_image.GetCheck() == BST_CHECKED)
 		m_img.draw(&btn_img, x, y);
+	*/
 
 	m_static_img.set_image(m_img);
 	
