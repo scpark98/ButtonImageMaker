@@ -7,7 +7,7 @@
 #include "Common/ResizeCtrl.h"
 #include "Common/CStatic/ImageStatic/ImageStatic.h"
 #include "Common/CMFCCtrl/CMFCPropertyGridCtrl/CSCMFCPropertyGridCtrl/SCMFCPropertyGridCtrl.h"
-#include "SCFigure.h"
+#include "Common/gdi/CSCFigure/SCFigure.h"
 
 // CButtonImageMakerDlg 대화 상자
 class CButtonImageMakerDlg : public CDialogEx

@@ -66,8 +66,8 @@
     <ClInclude Include="..\Common\CStatic\ImageStatic\ImageStatic.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="SCFigure.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="..\Common\gdi\CSCFigure\SCFigure.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,8 +104,8 @@
     <ClCompile Include="..\Common\CStatic\ImageStatic\ImageStatic.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="SCFigure.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="..\Common\gdi\CSCFigure\SCFigure.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

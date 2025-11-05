@@ -136,10 +136,6 @@ BOOL CButtonImageMakerDlg::OnInitDialog()
 
 	apply_settings();
 
-	int sz = sizeof(m_fig);
-	sz = sizeof(m_fig.r);
-	sz = sizeof(m_fig.cr_fill);
-
 	RestoreWindowPosition(&theApp, this);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
@@ -241,7 +237,7 @@ void CButtonImageMakerDlg::init_grid()
 	m_grid.AddChildItem(pGroup, _T("height"), height, _T("image height"), true, id_image_height, true, 10, 600);
 	m_grid.AddSliderItem(pGroup, _T("alpha"), alpha, id_image_alpha, 0, 255);
 	m_grid.AddColorSelect(pGroup, _T("back color"), cr_back.ToCOLORREF(), id_image_back_color);
-	m_grid.AddSliderItem(pGroup, _T("zoom"), m_zoom, id_image_zoom, zoom_min, zoom_max);
+	m_grid.AddSliderItem(pGroup, _T("zoom(%)"), (_variant_t)(int)m_zoom, id_image_zoom, zoom_min, zoom_max);
 	pGroup->Expand();
 	m_grid.AddProperty(pGroup);
 
@@ -251,7 +247,7 @@ void CButtonImageMakerDlg::init_grid()
 	m_grid.AddColorSelect(pGroup, _T("fill color"), m_fig.cr_fill.ToCOLORREF(), id_fill_color);
 	m_grid.AddColorSelect(pGroup, _T("stroke color"), m_fig.cr_stroke.ToCOLORREF(), id_stroke_color);
 	m_grid.AddChildItem(pGroup, _T("stroke thickness"), m_fig.stroke_width, _T(""), true, id_stroke_thickness, true, 0, 8);
-	m_grid.AddSliderItem(pGroup, _T("round radius"), m_fig.round[0], id_radius, 0, m_fig.r.Height / 2.0);
+	m_grid.AddSliderItem(pGroup, _T("round radius"), m_fig.round[0], id_radius, 0, (int)(m_fig.r.Height / 2.0));
 	pGroup->Expand();
 	m_grid.AddProperty(pGroup);
 
@@ -309,7 +305,7 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 		}
 		case id_image_zoom:
 		{
-			float zoom = getPropValue(pProperty);
+			int zoom = getPropValue(pProperty);
 			m_static_img.set_zoom_ratio(double(zoom) / 100.0);
 			break;
 		}
@@ -344,8 +340,8 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 		}
 		case id_radius:
 		{
-			float r = getPropValue(pProperty);
-			m_fig.round[0] = (int)r;
+			int r = getPropValue(pProperty);
+			m_fig.round[0] = r;
 			break;
 		}
 		//case id_shadow_depth:
@@ -446,7 +442,6 @@ void CButtonImageMakerDlg::apply_settings()
 	m_fig.r.X = (m_img.width - m_fig.r.Width) / 2;
 	m_fig.r.Y = (m_img.height - m_fig.r.Height) / 2;
 
-	CSCGdiplusBitmap fig_img;
 	m_fig.draw(&m_img, m_check_show_image.GetCheck(), m_check_show_shadow.GetCheck());
 
 	/*
@@ -503,7 +498,7 @@ BOOL CButtonImageMakerDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	m_static_img.zoom(zDelta > 0 ? 1 : -1, 0.2);
-	m_grid.set_value(id_image_zoom, m_static_img.get_zoom_ratio() * 100.0);
+	m_grid.set_value(id_image_zoom, (int)(m_static_img.get_zoom_ratio() * 100.0));
 	adjust_position();
 
 	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
