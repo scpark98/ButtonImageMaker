@@ -7,19 +7,25 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_BUTTONIMAGEMAKER_DIALOG     102
 #define IDR_MAINFRAME                   128
+#define IDR_MENU1                       131
 #define IDC_GRID                        1000
 #define IDC_STATIC_IMG                  1002
 #define IDC_CHECK_SHOW_IMAGE            1003
 #define IDC_CHECK_SHOW_SHADOW           1004
 #define IDC_BUTTON1                     1005
 #define IDC_BUTTON_SAVE                 1005
+#define ID_MENU_32771                   32771
+#define ID_MENU_32772                   32772
+#define ID_MENU_SAVE_IMAGE              32773
+#define ID_MENU_SAVE_PNG                32774
+#define ID_MENU_SAVE_JSON               32775
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
-#define _APS_NEXT_COMMAND_VALUE         32771
+#define _APS_NEXT_RESOURCE_VALUE        132
+#define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

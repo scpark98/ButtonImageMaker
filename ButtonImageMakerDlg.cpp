@@ -82,6 +82,8 @@ BEGIN_MESSAGE_MAP(CButtonImageMakerDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_SHOW_SHADOW, &CButtonImageMakerDlg::OnBnClickedCheckShowShadow)
 	ON_BN_CLICKED(IDC_BUTTON_SAVE, &CButtonImageMakerDlg::OnBnClickedButtonSave)
 	ON_WM_MOUSEWHEEL()
+	ON_COMMAND(ID_MENU_SAVE_IMAGE, &CButtonImageMakerDlg::OnMenuSaveImage)
+	ON_COMMAND(ID_MENU_SAVE_JSON, &CButtonImageMakerDlg::OnMenuSaveJson)
 END_MESSAGE_MAP()
 
 
@@ -124,7 +126,12 @@ BOOL CButtonImageMakerDlg::OnInitDialog()
 	m_resize.Add(IDC_BUTTON_SAVE, 100, 100, 0, 0);
 
 
-	//figure 초기화
+	//figure 초기화, 로딩
+	m_fig_file = theApp.GetProfileString(_T("setting"), _T("recent file"), get_exe_directory() + _T("\\figure.fig"));
+	if (PathFileExists(m_fig_file))
+	{
+		m_fig.load(m_fig_file);
+	}
 
 
 	init_grid();
@@ -444,29 +451,7 @@ void CButtonImageMakerDlg::apply_settings()
 
 	m_fig.draw(&m_img, m_check_show_image.GetCheck(), m_check_show_shadow.GetCheck());
 
-	/*
-	btn_img.create_round_rect(button_width, button_height, radius, cr_fill, cr_stroke, stroke_thickness);
-
-	//shadow 이미지에는 stroke가 적용되지 않아야하므로 create_back_shadow_image() 함수를 그냥 사용해서는 안된다.
-	CSCGdiplusBitmap shadow;
-	//btn_img.create_back_shadow_image(&shadow, shadow_sigma, 0, shadow_depth);
-	if (shadow_depth > 0)
-	{
-		shadow.create_round_rect(button_width, button_height, radius, cr_fill);
-		shadow.gray();
-		shadow.resize_canvas(button_width + shadow_depth, button_height + shadow_depth);
-		shadow.blur((float)shadow_sigma / 10.0f);
-	}
-
-	
-	int x = (m_img.width - btn_img.width) / 2;
-	int y = (m_img.height - btn_img.height) / 2;
-
-	if (shadow_depth > 0 && m_check_show_shadow.GetCheck() == BST_CHECKED)
-		m_img.draw(&shadow, x - shadow_depth / 2 + shadow_offset_x, y - shadow_depth / 2 + shadow_offset_y);
-	if (m_check_show_image.GetCheck() == BST_CHECKED)
-		m_img.draw(&btn_img, x, y);
-	*/
+	m_fig.save(m_fig_file);
 
 	m_static_img.set_image(m_img);
 	
@@ -502,4 +487,14 @@ BOOL CButtonImageMakerDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	adjust_position();
 
 	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+void CButtonImageMakerDlg::OnMenuSaveImage()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+void CButtonImageMakerDlg::OnMenuSaveJson()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

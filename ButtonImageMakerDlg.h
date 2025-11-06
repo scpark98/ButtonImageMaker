@@ -18,7 +18,9 @@ public:
 
 	CResizeCtrl		m_resize;
 
+	//m_fig에 실제 그려지는 도형의 속성값을 저장한다.
 	CSCFigure		m_fig;
+	CString			m_fig_file;
 
 	void			init_grid();
 	LRESULT			OnPropertyChanged(WPARAM wparam, LPARAM lparam);
@@ -100,4 +102,6 @@ public:
 	afx_msg void OnBnClickedCheckShowShadow();
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnMenuSaveImage();
+	afx_msg void OnMenuSaveJson();
 };

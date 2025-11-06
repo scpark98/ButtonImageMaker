@@ -206,6 +206,7 @@
     <ClInclude Include="..\Common\CStatic\SCStatic\SCStatic.h" />
     <ClInclude Include="..\Common\Functions.h" />
     <ClInclude Include="..\Common\gdi\CSCFigure\SCFigure.h" />
+    <ClInclude Include="..\Common\Json\rapid_json\json.h" />
     <ClInclude Include="..\Common\MemoryDC.h" />
     <ClInclude Include="..\Common\ResizeCtrl.h" />
     <ClInclude Include="..\Common\SCGdiplusBitmap.h" />
@@ -254,6 +255,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Common\gdi\CSCFigure\SCFigure.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Common\Json\rapid_json\json.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

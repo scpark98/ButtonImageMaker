@@ -69,6 +69,9 @@
     <ClInclude Include="..\Common\gdi\CSCFigure\SCFigure.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Json\rapid_json\json.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ButtonImageMaker.cpp">
@@ -105,6 +108,9 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\gdi\CSCFigure\SCFigure.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Json\rapid_json\json.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
