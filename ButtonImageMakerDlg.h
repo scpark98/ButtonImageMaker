@@ -33,16 +33,15 @@ public:
 	//반드시 1 이상부터 시작해야함.(dwID를 별도로 지정하지 않은 모든 아이템이 0으로 세팅되므로 구분할 수 없음)
 	enum PROPERTY_GRID_ITEM
 	{
-		id_figure_type = 1,
-
-		id_image_width,	
+		id_image_width = 1,	
 		id_image_height,
 		id_image_alpha,
 		id_image_back_color,
 		id_image_zoom,			//보기 확대/축소 배율, percentage
 
-		id_button_width,
-		id_button_height,
+		id_figure_type,
+		id_figure_width,
+		id_figure_height,
 		id_fill_color,
 		id_stroke_color,
 		id_stroke_thickness,

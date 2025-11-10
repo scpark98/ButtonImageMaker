@@ -249,8 +249,9 @@ void CButtonImageMakerDlg::init_grid()
 	m_grid.AddProperty(pGroup);
 
 	pGroup = new CMFCPropertyGridProperty(_T("Button Properties"));
-	m_grid.AddChildItem(pGroup, _T("button width"), m_fig.r.Width, _T(""), true, id_button_width, true, 10, width);
-	m_grid.AddChildItem(pGroup, _T("button height"), m_fig.r.Height, _T(""), true, id_button_height, true, 10, height);
+	m_grid.AddChildItem(pGroup, _T("button type"), m_fig.type, _T(""), true, id_figure_type, true, figure_type_rect, figure_type_bowl_rect);
+	m_grid.AddChildItem(pGroup, _T("button width"), m_fig.r.Width, _T(""), true, id_figure_width, true, 10, width);
+	m_grid.AddChildItem(pGroup, _T("button height"), m_fig.r.Height, _T(""), true, id_figure_height, true, 10, height);
 	m_grid.AddColorSelect(pGroup, _T("fill color"), m_fig.cr_fill.ToCOLORREF(), id_fill_color);
 	m_grid.AddColorSelect(pGroup, _T("stroke color"), m_fig.cr_stroke.ToCOLORREF(), id_stroke_color);
 	m_grid.AddChildItem(pGroup, _T("stroke thickness"), m_fig.stroke_width, _T(""), true, id_stroke_thickness, true, 0, 8);
@@ -317,12 +318,17 @@ LRESULT CButtonImageMakerDlg::OnPropertyChanged(WPARAM wparam, LPARAM lparam)
 			break;
 		}
 
-		case id_button_width:
+		case id_figure_type:
+		{
+			m_fig.type = getPropValue(pProperty);
+			break;
+		}
+		case id_figure_width:
 		{
 			m_fig.r.Width = getPropValue(pProperty);
 			break;
 		}
-		case id_button_height:
+		case id_figure_height:
 		{
 			m_fig.r.Height = getPropValue(pProperty);
 			m_grid.set_slider_range(id_radius, 0, m_fig.r.Height / 2.0f);
